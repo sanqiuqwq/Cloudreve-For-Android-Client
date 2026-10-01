@@ -1,1 +1,7 @@
-
+{
+  "versionCode": 1,
+  "versionName": "1.0.0",
+  "changelog": "1. 新增「关于」界面\n2. 新增检查更新功能，启动时自动检查\n3. 传输页支持下载/上传任务列表与进度展示",
+  "downloadUrl": "https://github.com/sanqiuqwq/Cloudreve-For-Android-Client/releases/latest",
+  "forceUpdate": false
+}

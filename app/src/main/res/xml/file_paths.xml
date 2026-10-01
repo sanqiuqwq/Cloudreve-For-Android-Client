@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path
+        name="cache_downloads"
+        path="downloads/" />
+    <external-cache-path
+        name="external_cache_downloads"
+        path="downloads/" />
+    <!-- Android 9 及以下下载到公共下载目录，分享/打开时经 FileProvider 转换 -->
+    <external-path
+        name="external_downloads"
+        path="Download/" />
+</paths>
