@@ -7,6 +7,12 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+// 传入 -PabiSplits 时才按 ABI 拆分产物，本地构建仍只出单个包
+val abiSplitsEnabled = providers.gradleProperty("abiSplits").isPresent
+
+// 签名信息由 CI 通过环境变量注入；未提供时退回 debug 签名，保证产物可直接安装
+val releaseStoreFile = System.getenv("SIGNING_STORE_FILE").orEmpty()
+
 android {
     namespace = "com.cra.cloudreve"
     compileSdk = 35
@@ -23,6 +29,17 @@ android {
         }
     }
 
+    signingConfigs {
+        if (releaseStoreFile.isNotEmpty()) {
+            create("release") {
+                storeFile = file(releaseStoreFile)
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,6 +47,23 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = if (releaseStoreFile.isNotEmpty()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
+        }
+    }
+
+    // 按 CPU 架构拆分，同时保留一个通用包
+    if (abiSplitsEnabled) {
+        splits {
+            abi {
+                isEnable = true
+                reset()
+                include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+                isUniversalApk = true
+            }
         }
     }
 
