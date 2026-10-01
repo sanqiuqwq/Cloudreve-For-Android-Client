@@ -1,5 +1,7 @@
 # Cloudreve Android 客户端
 
+By DeepSeek_v4.1-Flash
+
 基于 Cloudreve v4 RESTful API（路由前缀 `/api/v4/`）构建的 Android 客户端，采用 Kotlin + Jetpack Compose + Material Design 3。
 
 ## API 约定
