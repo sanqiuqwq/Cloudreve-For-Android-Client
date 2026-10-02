@@ -25,6 +25,7 @@ class SessionStore @Inject constructor(
     private object Keys {
         val SERVER_URL = stringPreferencesKey("server_url")
         val TOKEN = stringPreferencesKey("token")
+        val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
         val USER_ID = stringPreferencesKey("user_id")
         val USER_EMAIL = stringPreferencesKey("user_email")
         val USER_NICKNAME = stringPreferencesKey("user_nickname")
@@ -61,6 +62,9 @@ class SessionStore @Inject constructor(
     suspend fun tokenOnce(): String =
         context.dataStore.data.first()[Keys.TOKEN] ?: ""
 
+    suspend fun refreshTokenOnce(): String =
+        context.dataStore.data.first()[Keys.REFRESH_TOKEN] ?: ""
+
     suspend fun serverUrlOnce(): String =
         context.dataStore.data.first()[Keys.SERVER_URL] ?: ""
 
@@ -68,13 +72,29 @@ class SessionStore @Inject constructor(
         context.dataStore.edit { it[Keys.SERVER_URL] = normalize(url) }
     }
 
-    suspend fun saveLogin(token: String, userId: String, email: String, nickname: String, avatar: String) {
+    suspend fun saveLogin(
+        token: String,
+        refreshToken: String,
+        userId: String,
+        email: String,
+        nickname: String,
+        avatar: String
+    ) {
         context.dataStore.edit { prefs ->
             prefs[Keys.TOKEN] = token
+            if (refreshToken.isNotBlank()) prefs[Keys.REFRESH_TOKEN] = refreshToken
             prefs[Keys.USER_ID] = userId
             prefs[Keys.USER_EMAIL] = email
             prefs[Keys.USER_NICKNAME] = nickname
             prefs[Keys.USER_AVATAR] = avatar
+        }
+    }
+
+    /** 刷新令牌后更新 access/refresh token（refreshToken 为空时保留原值，服务端未轮换时使用） */
+    suspend fun updateTokens(accessToken: String, refreshToken: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.TOKEN] = accessToken
+            if (refreshToken.isNotBlank()) prefs[Keys.REFRESH_TOKEN] = refreshToken
         }
     }
 
@@ -109,6 +129,7 @@ class SessionStore @Inject constructor(
     suspend fun clearToken() {
         context.dataStore.edit { prefs ->
             prefs.remove(Keys.TOKEN)
+            prefs.remove(Keys.REFRESH_TOKEN)
             prefs.remove(Keys.USER_ID)
             prefs.remove(Keys.USER_EMAIL)
             prefs.remove(Keys.USER_NICKNAME)

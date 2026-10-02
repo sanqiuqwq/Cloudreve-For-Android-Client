@@ -73,6 +73,7 @@ class CloudreveRepository @Inject constructor(
         val user = response.user
         sessionStore.saveLogin(
             token = token,
+            refreshToken = response.token?.refreshToken.orEmpty(),
             userId = user?.id.orEmpty(),
             email = user?.email ?: email,
             nickname = user?.nickname.orEmpty(),

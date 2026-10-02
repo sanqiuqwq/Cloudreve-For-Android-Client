@@ -48,6 +48,12 @@ data class LoginResponse(
     val token: TokenPair? = null
 )
 
+/** POST /api/v4/session/token/refresh 的请求体 */
+@Serializable
+data class RefreshTokenRequest(
+    @SerialName("refresh_token") val refreshToken: String
+)
+
 /** 服务端返回的 token 是一个对象而非字符串，两个过期时间是 RFC3339 字符串 */
 @Serializable
 data class TokenPair(
