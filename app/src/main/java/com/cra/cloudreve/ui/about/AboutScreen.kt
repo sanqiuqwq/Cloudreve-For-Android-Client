@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.Card
@@ -199,6 +200,61 @@ fun AboutScreen(
                 )
             }
 
+            Card(modifier = Modifier.fillMaxWidth()) {
+                ListItem(
+                    headlineContent = { Text(text = "开源许可") },
+                    supportingContent = {
+                        Text(
+                            text = "${AboutInfo.LICENSE_NAME}（点击查看完整协议）",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    trailingContent = {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { openUrl(context, AboutInfo.LICENSE_URL) }
+                )
+            }
+
+            Card(modifier = Modifier.fillMaxWidth()) {
+                ListItem(
+                    headlineContent = { Text(text = "开源组件") },
+                    supportingContent = {
+                        Text(
+                            text = "本应用使用了以下开源项目，感谢它们的作者",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Filled.Code,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                )
+                AboutInfo.OPEN_SOURCE_LIBS.forEach { component ->
+                    HorizontalDivider()
+                    OssItem(
+                        component = component,
+                        onClick = { openUrl(context, component.url) }
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.size(8.dp))
         }
     }
@@ -214,6 +270,32 @@ fun AboutScreen(
             }
         )
     }
+}
+
+@Composable
+private fun OssItem(
+    component: OssComponent,
+    onClick: () -> Unit
+) {
+    ListItem(
+        headlineContent = { Text(text = component.name) },
+        supportingContent = {
+            Text(
+                text = "${component.version} · ${component.license}",
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        trailingContent = {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.OpenInNew,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+    )
 }
 
 @Composable

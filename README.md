@@ -22,7 +22,7 @@ By DeepSeek_v4.1-Flash
 - 文件夹下载：递归下载整个目录，保持层级结构，统一落盘到 `下载/cloudreve/`
 - 分享：单文件 / 文件夹分享，支持密码保护、有效期与下载次数限制
 - 设置：账号信息、服务器地址、深色模式、动态取色（Android 12+）、下载并发上限、关于、退出登录
-- 关于：展示应用版本号、开源地址与开发者联系方式
+- 关于：展示应用版本号、开源地址、开源许可、所用开源组件与开发者联系方式
 - 检查更新：应用启动时自动检查一次，发现新版本弹窗提示，也可在「关于」页手动检查
 
 ## 关键端点
@@ -119,6 +119,44 @@ app/src/main/java/com/cra/cloudreve/
 - Retrofit + OkHttp + kotlinx.serialization
 - Hilt 依赖注入
 - DataStore 持久化会话与偏好设置
+
+## 许可证
+
+本项目采用 **GNU Affero General Public License v3.0（AGPL-3.0）** 许可，完整协议见 [LICENSE](LICENSE)。
+
+```
+Copyright (C) 2026 nnn
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+```
+
+## 开源组件
+
+本项目基于以下开源项目构建，在此感谢所有作者与贡献者：
+
+| 组件 | 版本 | 许可证 | 主页 |
+| --- | --- | --- | --- |
+| Kotlin / kotlinx-coroutines | 2.1.0 / 1.9.0 | Apache-2.0 | https://github.com/JetBrains/kotlin |
+| kotlinx.serialization | 1.7.3 | Apache-2.0 | https://github.com/Kotlin/kotlinx.serialization |
+| AndroidX Core KTX | 1.15.0 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/core |
+| AndroidX Lifecycle | 2.8.7 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/lifecycle |
+| AndroidX Activity Compose | 1.9.3 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/activity |
+| Jetpack Compose (BOM) | 2024.12.01 | Apache-2.0 | https://developer.android.com/jetpack/compose |
+| Compose Material 3 | BOM 2024.12.01 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/compose-material3 |
+| Compose Material Icons Extended | BOM 2024.12.01 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/compose-material |
+| AndroidX Navigation Compose | 2.8.5 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/navigation |
+| AndroidX DataStore | 1.1.1 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/datastore |
+| AndroidX Hilt Navigation Compose | 1.2.0 | Apache-2.0 | https://developer.android.com/jetpack/androidx/releases/hilt |
+| Dagger Hilt | 2.54 | Apache-2.0 | https://github.com/google/dagger |
+| Retrofit | 2.11.0 | Apache-2.0 | https://github.com/square/retrofit |
+| retrofit2-kotlinx-serialization-converter | 1.0.0 | Apache-2.0 | https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter |
+| OkHttp | 4.12.0 | Apache-2.0 | https://github.com/square/okhttp |
+| Coil | 2.7.0 | Apache-2.0 | https://github.com/coil-kt/coil |
+
+> 上表的组件清单与版本同步自 [`gradle/libs.versions.toml`](gradle/libs.versions.toml)；升级依赖时请一并更新此处以及应用内「关于 → 开源组件」列表（`ui/about/AboutInfo.kt`）。
 
 ## 构建
 
